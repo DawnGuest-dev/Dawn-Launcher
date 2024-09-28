@@ -40,7 +40,27 @@
     <div class="img-section"></div>
     <div class="content-section">
         <div class="content-inner-section">
-            <button>asdasd</button>
+            <div class="game-banner">
+                <img src="test.jpg" alt="Game Banner" class="banner-image">
+                <div class="game-info">
+                    <h2>Project TAL</h2>
+                    <div class="icons">
+                        <button class="icon-button">🏠</button>
+                        <button class="icon-button">🎧</button>
+                        <button class="icon-button">📺</button>
+                        <button class="icon-button">🔗</button>
+                        <button class="start-button" id="start-btn">▶ 게임시작</button> <!-- 버튼 ID 추가 -->
+                    </div>
+                    <div class="game-details">
+                        <span class="detail-item">연령: 15+</span>
+                        <span class="detail-item">장르: MMO</span>
+                        <span class="detail-item">플랫폼: 윈도우</span>
+                        <button class="detail-item system-requirements">
+                            시스템 요구사항 <span class="arrow">></span>
+                        </button>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -95,7 +115,6 @@
         if (imgSection.getBoundingClientRect().bottom < 0) {
             if(imgVisible)
             {
-                console.log(0);
                 header1.style.display = 'none'; // content-header-1 숨기기
                 header2.style.display = 'flex'; // content-header-2 보이기
             }
@@ -103,11 +122,23 @@
         } else {
             if(!imgVisible)
             {
-                console.log(1);
                 header1.style.display = 'flex'; // content-header-1 보이기
                 header2.style.display = 'none'; // content-header-2 숨기기
             }
             imgVisible = true;
+        }
+    });
+
+    // 게임 시작 버튼 클릭 시 Unity 빌드 실행
+    document.getElementById('start-btn').addEventListener('click', () => {
+        const gamePath = "C:\\Users\\bbdle\\Documents\\DawnGuest\\Unity Builds\\Project TAL.exe"; // Unity 빌드 파일의 전체 경로
+        const args = ["arg1", "arg2"]; // 필요한 인수 추가
+
+        // args가 정의되어 있는지 확인
+        if (args && args.length > 0) {
+            window.electron.ipcRenderer.send('run-unity', { gamePath, args });
+        } else {
+            console.error('Arguments are undefined or empty'); // args가 비어있거나 정의되지 않음
         }
     });
 

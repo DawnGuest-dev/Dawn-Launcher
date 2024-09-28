@@ -1,6 +1,6 @@
 ﻿import { app, BrowserWindow, ipcMain, shell } from 'electron';
 import path from 'node:path';
-import {Jimp} from "jimp";
+import { spawn } from 'child_process';
 
 // electron-reload가 개발 중에만 동작하도록 설정
 if (!app.isPackaged) {
@@ -11,6 +11,15 @@ if (!app.isPackaged) {
 }
 
 let mainWindow: BrowserWindow | null;
+
+function runUnityBuild(gamePath: string, args: string[]) {
+    const command = gamePath; // Unity 빌드 파일 경로
+    const childProcess = spawn(command, args, { detached: true, stdio: 'ignore' });
+
+    childProcess.unref(); // 부모 프로세스가 자식 프로세스를 기다리지 않도록 함
+    console.log(`Started ${command} with args: ${args.join(' ')}`);
+}
+
 
 function createWindow() {
     console.log(__dirname);
@@ -78,6 +87,13 @@ ipcMain.on('close-window', () => {
 
 ipcMain.on('open-link', (event, url) => {
     shell.openExternal(url); // 기본 웹 브라우저에서 URL 열기
+});
+
+ipcMain.on('run-unity', (event, data) => {
+    const gamePath = data.gamePath; // 게임 경로
+    const args = data.args; // 인수
+
+    runUnityBuild(gamePath, args); // Unity 빌드 실행
 });
 
 app.on('ready', createWindow);

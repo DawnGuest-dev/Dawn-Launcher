@@ -57,7 +57,7 @@
 }
 
 .sidebar {
-    background-color: pink;
+    background-color: rgb(28, 30, 33);
     width: 100px;
     height: 100vh; /* 전체 화면 높이 */
     position: fixed;
@@ -144,7 +144,6 @@
 }
 
 .sidebar-header {
-    background-color: #FF22FF;
     height: 40px; /* 높이 20px */
     position: sticky; /* 스크롤할 때 제목 표시줄 아래에 고정 */
     top: 40px; /* 제목 표시줄 높이에 맞춰 설정 */
@@ -163,14 +162,109 @@
 }
 
 .content-section {
-    background: linear-gradient(to bottom, rgba(19,22,1,0) 0%, rgba(19,22,1,1) 20%, rgba(19,22,1,1) 100%); /* 상단 30%에만 그라데이션 적용 */
-    height: 100vh; /* 전체 화면 높이 */
+    background: linear-gradient(to bottom, rgba(19,22,1,0) 0%, rgba(19,22,1,1) 15%, rgba(19,22,1,1) 100%); /* 상단 30%에만 그라데이션 적용 */
+    height: fit-content; /* 전체 화면 높이 */
     position: relative;
     z-index: 2; /* 초록색 섹션 위로 올리기 */
-    margin-top: -20vh; /* 회색 섹션이 초록색 섹션 위로 겹쳐지도록 조정 */
+    margin-top: -200px; /* 회색 섹션이 초록색 섹션 위로 겹쳐지도록 조정 */
 }
 
 .content-inner-section {
-    margin-top: 20vh;
+    display: flex; /* flexbox를 사용하여 자식 요소를 정렬 */
+    width: calc(100% - 100px); /* 사이드바 너비를 뺀 전체 너비 */
     height: 1000px;
+    margin-right: 100px; /* 사이드바를 위한 여백 추가 */
+}
+
+.game-banner {
+    display: flex; /* 플렉스 박스 사용 */
+    /*align-items: center; !* 수직 중앙 정렬 *!*/
+    padding: 20px;
+    border-radius: 10px;
+    width: 100%; /* 전체 너비 차지 */
+}
+
+.banner-image {
+    width: 50vh; /* 이미지 너비 */
+    height: 30vh;
+    margin-right: 20px; /* 이미지와 텍스트 간격 */
+    margin-left: 5vh;
+}
+
+.game-info {
+    color: white;
+    width: 50%;
+    /*margin-right: 20px;*/
+}
+
+.icons {
+    margin-top: 10px;
+}
+
+.icon-button {
+    background-color: transparent;
+    border: none;
+    color: white;
+    font-size: 18px;
+    margin-right: 5px;
+}
+
+.start-button {
+    background-color: #007bff; /* 버튼 배경색 */
+    color: white; /* 버튼 글자색 */
+    border: none; /* 테두리 없음 */
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.start-button:hover {
+    opacity: 0.8; /* 마우스 오버 시 투명도 조정 */
+}
+
+.game-details {
+    display: flex;
+    justify-content: space-between; /* 각 항목 간격 조정 */
+    align-items: center; /* 수직 중앙 정렬 */
+    background-color: rgba(255, 255, 255, 0.2); /* 흰색 반투명 배경 */
+    padding: 10px; /* 내부 여백 */
+    border-radius: 8px; /* 모서리 둥글게 */
+    width: calc(100% - 20px); /* 너비를 100%에서 20px 차감 */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* 그림자 효과 */
+    margin: 20px 0; /* 상하 외부 여백 20px */
+    position: relative; /* 부모 요소가 있는 경우 이 속성 추가 */
+    left: 20px; /* 왼쪽으로 20px 이동 */
+}
+
+.detail-item {
+    flex: 1; /* 각 항목이 동일한 너비를 갖도록 설정 */
+    text-align: center; /* 텍스트 중앙 정렬 */
+    position: relative; /* 자식 요소에 대해 상대적 위치 설정 */
+    font-size: 13px;
+}
+
+.detail-item:not(:last-child)::after {
+    content: ""; /* 빈 content 생성 */
+    position: absolute;
+    top: 10%; /* 위쪽 여백 */
+    right: 0; /* 오른쪽에 위치 */
+    width: 1px; /* 세로 선의 너비 */
+    height: 80%; /* 세로 선의 높이 */
+    background-color: rgba(0, 0, 0, 0.2); /* 세로 선 색상 */
+}
+
+.system-requirements {
+    color: #ffffff; /* 글자색 */
+    background-color: transparent; /* 배경색 투명 */
+    border: none; /* 테두리 제거 */
+    padding: 0; /* 내부 여백 제거 */
+    cursor: pointer; /* 마우스 포인터 */
+    outline: none; /* 포커스 시 외곽선 제거 */
+    box-shadow: none; /* 그림자 제거 */
+}
+
+.arrow {
+    margin-left: 5px; /* 왼쪽 여백 추가 */
+    font-weight: bold; /* 필요시 두껍게 설정 */
 }
