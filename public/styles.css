@@ -1,0 +1,176 @@
+﻿body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #282c34; /* 전체 배경 색상 */
+    color: white;
+}
+
+/* 스크롤바 숨기기 */
+::-webkit-scrollbar {
+    display: none; /* 웹킷 브라우저에서 스크롤바 숨기기 */
+}
+
+#main {
+    display: flex;
+    flex-direction: column; /* 수직 방향으로 배치 */
+}
+
+#title-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 40px;
+    padding: 0 10px;
+    background-color: rgba(1,1,1,0.8);
+    -webkit-app-region: drag;
+    backdrop-filter: blur(15px); /* 블러 효과 추가 */
+    position: sticky; /* 스크롤 시에도 따라오도록 설정 */
+    top: 0; /* 페이지 상단에 고정 */
+    z-index: 1000; /* 다른 요소보다 위에 위치 */
+}
+
+#title {
+    font-size: 18px;
+    font-weight: bold;
+    -webkit-app-region: no-drag;
+}
+
+#controls {
+    display: flex;
+    float: right;
+    -webkit-app-region: no-drag;
+}
+
+.button {
+    width: 30px;
+    height: 30px;
+    border: none;
+    background-color: transparent;
+    color: white;
+    cursor: pointer;
+    font-size: 18px;
+    margin-left: 10px;
+}
+
+.button:hover {
+    opacity: 0.7;
+}
+
+.sidebar {
+    background-color: pink;
+    width: 100px;
+    height: 100vh; /* 전체 화면 높이 */
+    position: fixed;
+    right: 0;
+    top: 40px; /* 타이틀바와 함께 고정 */
+    z-index: 900; /* 콘텐츠 위에 위치하도록 설정 */
+}
+
+.content {
+    margin-top: -40px; /* 제목바와 겹치도록 조정 */
+}
+
+.content-header-1 {
+    position: sticky; /* 스크롤할 때 제목 표시줄 아래에 고정 */
+    display: flex;
+    justify-content: space-between; /* 양쪽으로 버튼을 배치 */
+    align-items: center; /* 수직 중앙 정렬 */
+    background-color: #282c34;
+    top: 40px; /* 제목 표시줄 높이에 맞춰 설정 */
+    height: 40px; /* 높이 40px 유지 */
+    z-index: 900; /* 제목 표시줄보다 위에 위치하도록 설정 */
+    margin-right: 100px; /* 사이드바 너비 만큼 여백 추가 */
+}
+
+
+.left-buttons {
+    margin-left: 10px; /* 왼쪽 여백 추가 */
+}
+
+.dropdown {
+    display: none; /* 기본적으로 숨김 */
+    position: absolute; /* 드롭다운 위치 설정 */
+    background-color: #282c34; /* 드롭다운 배경색 */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 그림자 효과 */
+    z-index: 1000; /* 다른 요소 위에 표시 */
+    margin-left: 35px;
+    margin-top: 5px;
+}
+
+.dropdown-item {
+    display: block; /* 블록 형태로 표시 */
+    color: white; /* 글자색 */
+    padding: 10px; /* 패딩 */
+    border: none; /* 테두리 없음 */
+    background-color: transparent; /* 배경색 투명 */
+    text-align: left; /* 왼쪽 정렬 */
+    cursor: pointer; /* 마우스 포인터 변경 */
+    width: 100%; /* 드롭다운 너비에 맞춤 */
+}
+
+.dropdown-item:hover {
+    background-color: rgba(255, 255, 255, 0.2); /* 마우스 오버 시 배경색 변화 */
+}
+
+.right-buttons {
+    margin-right: 10px; /* 오른쪽 여백 추가 */
+}
+
+.header-button {
+    background-color: rgba(255, 255, 255, 0.2); /* 버튼 배경색 */
+    color: white; /* 버튼 글자색 */
+    border: none; /* 테두리 없음 */
+    border-radius: 5px; /* 모서리 둥글게 */
+    padding: 5px 10px; /* 패딩 추가 */
+    cursor: pointer; /* 마우스 포인터 */
+    margin-left: 5px; /* 버튼 간 여백 */
+}
+
+.header-button:hover {
+    opacity: 0.7; /* 마우스 오버 시 투명도 조정 */
+}
+
+.content-header-2 {
+    position: sticky; /* 스크롤할 때 제목 표시줄 아래에 고정 */
+    display: none; /* 처음에는 숨김 */
+    justify-content: space-between; /* 양쪽으로 버튼을 배치 */
+    align-items: center; /* 수직 중앙 정렬 */
+    background-color: rgba(0, 0, 0, 0.2); /* 버튼 배경색 */
+    backdrop-filter: blur(15px);
+    top: 40px; /* 제목 표시줄 높이에 맞춰 설정 */
+    height: 80px; /* 높이 40px 유지 */
+    z-index: 900; /* 제목 표시줄보다 위에 위치하도록 설정 */
+    margin-right: 100px; /* 사이드바 너비 만큼 여백 추가 */
+}
+
+.sidebar-header {
+    background-color: #FF22FF;
+    height: 40px; /* 높이 20px */
+    position: sticky; /* 스크롤할 때 제목 표시줄 아래에 고정 */
+    top: 40px; /* 제목 표시줄 높이에 맞춰 설정 */
+    z-index: 900; /* 제목 표시줄보다 위에 위치하도록 설정 */
+}
+
+.img-section {
+    /* 이미지 배경 설정 */
+    background-image: url('test.jpg'); /* 이미지 파일 경로 */
+    background-size: cover; /* 이미지가 섹션 크기에 맞도록 조정 */
+    background-position: center; /* 이미지가 중앙에 위치하도록 설정 */
+    height: 70vh;
+    position: relative;
+    top: -40px;
+    z-index: 1; /* 기본 레이어 */
+}
+
+.content-section {
+    background: linear-gradient(to bottom, rgba(19,22,1,0) 0%, rgba(19,22,1,1) 20%, rgba(19,22,1,1) 100%); /* 상단 30%에만 그라데이션 적용 */
+    height: 100vh; /* 전체 화면 높이 */
+    position: relative;
+    z-index: 2; /* 초록색 섹션 위로 올리기 */
+    margin-top: -20vh; /* 회색 섹션이 초록색 섹션 위로 겹쳐지도록 조정 */
+}
+
+.content-inner-section {
+    margin-top: 20vh;
+    height: 1000px;
+}

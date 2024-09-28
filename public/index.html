@@ -1,0 +1,116 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dawn Launcher</title>
+    <link rel="stylesheet" href="styles.css"> <!-- CSS 파일 연결 -->
+</head>
+<body>
+<div id="title-bar">
+    <div id="title"></div>
+    <div id="controls">
+        <button class="button" id="minimize-btn">_</button>
+        <button class="button" id="maximize-btn">□</button>
+        <button class="button" id="close-btn">X</button>
+    </div>
+</div>
+<div class="content-header-1">
+    <div class="left-buttons">
+        <button class="header-button" id="menu-btn">Dawn Engine</button> <!-- 왼쪽 버튼 -->
+        <div id="dropdown" class="dropdown">
+            <button class="dropdown-item" id="home-btn">홈</button>
+            <button class="dropdown-item" id="settings-btn">환경설정</button>
+            <button class="dropdown-item" id="exit-btn">종료</button>
+        </div>
+    </div>
+    <div class="right-buttons">
+        <button class="header-button" id="chat-btn">Chat</button> <!-- 오른쪽 버튼 1 -->
+        <button class="header-button" id="profile=btn">Profile</button> <!-- 오른쪽 버튼 2 -->
+    </div>
+</div>
+<div class="content-header-2">
+
+</div>
+<div class="sidebar">
+    <div class="sidebar-header"></div>
+</div>
+<div class="content">
+    </div>
+    <div class="img-section"></div>
+    <div class="content-section">
+        <div class="content-inner-section">
+            <button>asdasd</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    // IPC 이벤트 처리
+    document.getElementById('minimize-btn').addEventListener('click', () => {
+        window.electron.ipcRenderer.send('minimize-window');
+    });
+
+    document.getElementById('maximize-btn').addEventListener('click', () => {
+        window.electron.ipcRenderer.send('maximize-window');
+    });
+
+    document.getElementById('close-btn').addEventListener('click', () => {
+        window.electron.ipcRenderer.send('close-window');
+    });
+
+    // 드롭다운 메뉴 토글
+    document.getElementById('menu-btn').addEventListener('click', () => {
+        const dropdown = document.getElementById('dropdown');
+        dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block'; // 드롭다운 토글
+    });
+
+    // 홈 버튼 클릭 시 링크로 이동
+    document.getElementById('home-btn').addEventListener('click', () => {
+        window.electron.ipcRenderer.send('open-link', 'https://www.dawnguest.kr'); // URL 수정
+    });
+
+    // 드롭다운 바깥 클릭 시 닫기
+    window.addEventListener('click', (event) => {
+        if (!document.getElementById('menu-btn').contains(event.target) && !document.getElementById('dropdown').contains(event.target)) {
+            const dropdown = document.getElementById('dropdown');
+            dropdown.style.display = 'none'; // 드롭다운 토글
+        }
+    });
+
+    // 홈 버튼 클릭 시 링크로 이동
+    document.getElementById('exit-btn').addEventListener('click', () => {
+        window.electron.ipcRenderer.send('close-window'); // 종료 명령 전송
+    });
+
+    // 스크롤 시 헤더 변경
+    let imgVisible = true;
+
+    const header1 = document.querySelector('.content-header-1');
+    const header2 = document.querySelector('.content-header-2');
+
+    window.addEventListener('scroll', () => {
+        const imgSection = document.querySelector('.img-section');
+        // img-section이 화면에서 사라질 때
+        if (imgSection.getBoundingClientRect().bottom < 0) {
+            if(imgVisible)
+            {
+                console.log(0);
+                header1.style.display = 'none'; // content-header-1 숨기기
+                header2.style.display = 'flex'; // content-header-2 보이기
+            }
+            imgVisible = false;
+        } else {
+            if(!imgVisible)
+            {
+                console.log(1);
+                header1.style.display = 'flex'; // content-header-1 보이기
+                header2.style.display = 'none'; // content-header-2 숨기기
+            }
+            imgVisible = true;
+        }
+    });
+
+</script>
+</body>
+</html>
