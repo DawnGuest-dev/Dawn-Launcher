@@ -2,12 +2,11 @@
 
 contextBridge.exposeInMainWorld('electron', {
     ipcRenderer: {
-        send: (channel: string, data?: any) => {
-            // 허용된 채널을 확인
-            const validChannels = ['minimize-window', 'close-window', 'maximize-window', 'open-link', 'run-unity'];
-            if (validChannels.includes(channel)) {
-                ipcRenderer.send(channel, data);
-            }
+        send: (channel: string, data: any) => {
+            ipcRenderer.send(channel, data);
         },
-    }
+        on: (channel: string, listener: (event: any, data: any) => void) => {
+            ipcRenderer.on(channel, listener);
+        },
+    },
 });

@@ -1,6 +1,8 @@
-﻿import { app, BrowserWindow, ipcMain, shell } from 'electron';
+﻿import { app, BrowserWindow, ipcMain, shell, dialog } from 'electron';
 import path from 'node:path';
 import { spawn } from 'child_process';
+import './login';
+import {getAccessToken, getRefreshToken} from "./login";
 
 // electron-reload가 개발 중에만 동작하도록 설정
 if (!app.isPackaged) {
@@ -40,7 +42,8 @@ function createWindow() {
 
     // // 메뉴 바 완전히 제거
     mainWindow.setMenu(null);
-    mainWindow.loadFile(path.join(__dirname, '..', 'public', 'index.html'));
+    // mainWindow.loadFile(path.join(__dirname, '..', 'public', 'index.html'));
+    mainWindow.loadFile(path.join(__dirname, '..', 'public', 'login.html'));
 
     if (!app.isPackaged) {
         mainWindow.webContents.openDevTools({mode: "detach"}); // 개발 환경에서만 개발자 도구 열기
@@ -91,9 +94,33 @@ ipcMain.on('open-link', (event, url) => {
 
 ipcMain.on('run-unity', (event, data) => {
     const gamePath = data.gamePath; // 게임 경로
-    const args = data.args; // 인수
+    const args = [...data.args]; // 인수
+
+    const accessToken = getAccessToken(); // 로그인 토큰 가져오기
+    const refreshToken = getRefreshToken(); // 리프레시 토큰 가져오기
+
+    // 토큰이 존재할 경우 인수에 추가
+    if (accessToken) {
+        args.push(`--accessToken=${accessToken}`);
+    }
+    if (refreshToken) {
+        args.push(`--refreshToken=${refreshToken}`);
+    }
 
     runUnityBuild(gamePath, args); // Unity 빌드 실행
+});
+
+ipcMain.on('show-dialog', (event, { title, message, detail }) => {
+    if (mainWindow) {
+        dialog.showMessageBox(mainWindow, {
+            type: 'error',
+            title: title,
+            message: message,
+            detail: detail,
+        }).catch(err => {
+            console.error('다이얼로그 표시 중 오류 발생:', err);
+        });
+    }
 });
 
 app.on('ready', createWindow);

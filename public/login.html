@@ -1,0 +1,67 @@
+﻿<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>로그인</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div id="title-bar">
+    <div id="title"></div>
+    <div id="controls">
+        <button class="button" id="minimize-btn">_</button>
+        <button class="button" id="maximize-btn">□</button>
+        <button class="button" id="close-btn">X</button>
+    </div>
+</div>
+<h1>로그인</h1>
+<form id="login-form">
+    <label for="username">사용자 이름:</label>
+    <input type="text" id="username" required>
+    <label for="password">비밀번호:</label>
+    <input type="password" id="password" required>
+    <button type="submit">로그인</button>
+</form>
+<script>
+    document.getElementById('minimize-btn').addEventListener('click', () => {
+        window.electron.ipcRenderer.send('minimize-window');
+    });
+
+    document.getElementById('maximize-btn').addEventListener('click', () => {
+        window.electron.ipcRenderer.send('maximize-window');
+    });
+
+    document.getElementById('close-btn').addEventListener('click', () => {
+        window.electron.ipcRenderer.send('close-window');
+    });
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const loginForm = document.getElementById('login-form');
+        if (loginForm) {
+            loginForm.addEventListener('submit', (event) => {
+                event.preventDefault(); // 기본 폼 제출 방지
+                const username = document.getElementById('username').value;
+                const password = document.getElementById('password').value;
+
+                // IPC를 통해 로그인 정보 전송
+                window.electron.ipcRenderer.send('login', { username, password });
+            });
+        }
+    });
+
+    // 로그인 결과 수신 처리
+    window.electron.ipcRenderer.on('login-success', () => {
+        window.location.href = 'index.html'; // 로그인 성공 시 메인 페이지로 이동
+    });
+
+    window.electron.ipcRenderer.on('login-fail', () => {
+        window.electron.ipcRenderer.send('show-dialog', {
+            title: '로그인 에러!',
+            message: '로그인 실패!',
+            detail: '사용자 이름 또는 비밀번호를 확인하세요.'
+        });
+    });
+</script>
+</body>
+</html>
